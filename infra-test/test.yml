@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  someservice:
+    build:
+      context: ./
+  
+  buildwatch:
+    build:
+      context: ../
+    environment:
+      - "YML_PATH=$PWD"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
