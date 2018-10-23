@@ -37,3 +37,5 @@ golang.org/x/net/proxy
 golang.org/x/net/internal/socks
 # golang.org/x/sys v0.0.0-20181021155630-eda9bb28ed51
 golang.org/x/sys/windows
+# gopkg.in/yaml.v2 v2.2.1
+gopkg.in/yaml.v2

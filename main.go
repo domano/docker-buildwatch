@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"strings"
 
@@ -10,6 +11,7 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/client"
+	"gopkg.in/yaml.v2"
 )
 
 const (
@@ -28,6 +30,20 @@ func main() {
 		imgCandidates = append(imgCandidates, getCandidate(containers[i]))
 	}
 	spew.Dump(imgCandidates)
+
+	yml, err := ioutil.ReadFile("/app/base/test.yml")
+	if err != nil {
+		panic(err)
+	}
+
+	var composeFile ComposeFile
+	err = yaml.Unmarshal(yml, &composeFile)
+	if err != nil {
+		panic(err)
+	}
+	for service := range composeFile.Services {
+	}
+	spew.Dump(composeFile)
 }
 
 func listContainers() []types.Container {
@@ -72,12 +88,4 @@ func getCandidate(container types.Container) ImgCandidate {
 		imageTag:    imgTags[1],
 	}
 	return candidate
-}
-
-func shouldImageBeRebuilt(serviceName string) {
-	yml, exists := os.LookupEnv("YML_PATH")
-	if !exists {
-		panic("No yml-path! Cant check without it")
-	}
-	
 }
